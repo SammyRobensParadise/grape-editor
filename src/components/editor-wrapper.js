@@ -1,5 +1,6 @@
 import React from 'react'
 import Editor from './App'
+
 class EditorWrapper extends React.PureComponent{
     constructor(props){
         super(props)

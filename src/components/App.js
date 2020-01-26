@@ -1,7 +1,6 @@
 import React from 'react'
 import MonacoEditor from 'react-monaco-editor'
 import { fallbackConfig, isObjectEmpty } from '../utils/data-handler'
-import Keys from '../constants/keys'
 
 class Editor extends React.PureComponent {
   constructor(props) {
@@ -20,6 +19,7 @@ class Editor extends React.PureComponent {
     editor.focus()
   }
   onChange(newValue, e) {}
+  
   render() {
     const {language,width,height,theme,code,options} = this.state.localConfig
     return (

@@ -21,7 +21,6 @@ export const isObjectEmpty = (o) => {
  */
 window.Editor_dispatchDataEventToLocalStorage = (key, config) => {
   const date = new Date()
-  debugger
   const keyToStore = typeof key === 'string' ? key : date.getTime()
   const configToStore =
     typeof config === 'object' &&
