@@ -5,7 +5,7 @@ import MonacoEditor from 'react-monaco-editor';
 
 
 
-class App extends React.PureComponent {
+class Editor extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,4 +39,4 @@ class App extends React.PureComponent {
   }
 }
 
-export default App;
+export default Editor;
