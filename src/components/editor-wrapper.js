@@ -5,22 +5,24 @@ import { fallbackConfig, isObjectEmpty } from '../utils/data-handler'
 import { Icon, CodeBlock } from 'global-winery'
 
 const defaultVSCodeColor = '#1d1d1d'
-const secondaryCodeColor = '#868686';
+const secondaryCodeColor = '#868686'
 const Wrapper = styled.div`
   background-color: ${defaultVSCodeColor};
-  padding-top: 40px;
+  padding-top: 20px;
   padding-bottom: 40px;
   border-radius: 10px;
   height: ${(p) => (p.height + 200 ? p.height : 600)}px;
   width: ${(p) => (p.width ? p.width : 600)}px;
-  z-index: 10;
+  z-index: 50;
 `
 const Tab = styled.div`
-  width: ${(p) => (p.width ? p.width / 3 : 600 / 3)}px;
+  width: ${(p) => (p.width ? p.width / p.numberOfTabs : 600 / p.numberOfTabs)}px;
   height: ${(p) => (p.height ? p.height : 600)}px;
   background: ${(p) => (p.color ? p.color : defaultVSCodeColor)};
-  z-index: 30;
-  display:  inline-block;
+  float: right;
+  left: ${(p) => (parseInt(p.width, 10) / parseInt(p.order, 10))-parseInt(p.width,10)/p.numberOfTabs}px;
+  position: absolute;
+  top: 0px;
 `
 const E = styled.div`
   z-index: 1000;
@@ -41,6 +43,7 @@ class EditorWrapper extends React.PureComponent {
     this.state = {
       localConfig: retrievedConfigFromLocalStorage,
       hasMountedToDOM: false,
+      numberOfTabs: 3,
     }
     window.Editor_dispatchDataEventToLocalStorage('config', fallbackConfig)
   }
@@ -52,18 +55,20 @@ class EditorWrapper extends React.PureComponent {
   }
   render() {
     const { width, height } = this.state.localConfig
+    const { numberOfTabs } = this.state
     const children = <CodeBlock color={'#ffffff'} />
-
     return (
-      <Wrapper width={width} height={height}>
-        <IconWrapper>
-          <Icon type={children} />
-        </IconWrapper>
-        <E>
-          <Editor />
-        </E>
-        <Tab color={secondaryCodeColor} />
-      </Wrapper>
+      <div>
+        <Tab color={secondaryCodeColor} numberOfTabs={numberOfTabs} order={2} width={width} />
+        <Wrapper width={width} height={height}>
+          <IconWrapper>
+            <Icon type={children} />
+          </IconWrapper>
+          <E>
+            <Editor />
+          </E>
+        </Wrapper>
+      </div>
     )
   }
 }

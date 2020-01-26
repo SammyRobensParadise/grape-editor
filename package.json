@@ -70,7 +70,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "git-push": "echo Warning, pushing to master && git add . && git commit -m 'CLI automated commit message' && git push origin master"
+    "git-push": "echo Warning, pushing to master && git add . && git commit -m 'CLI automated commit message' && git push origin monaco-editor"
   },
   "eslintConfig": {
     "extends": "react-app"
