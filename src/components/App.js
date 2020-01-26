@@ -1,29 +1,29 @@
-import React from 'react';
-import MonacoEditor from 'react-monaco-editor';
-// or import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-// if shipping only a subset of the features & languages is desired
-
-
+import React from 'react'
+import MonacoEditor from 'react-monaco-editor'
+import { fallbackConfig, isObjectEmpty } from '../utils/data-handler'
+import Keys from '../constants/keys'
 
 class Editor extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
+    const retrievedConfigFromLocalStorage = isObjectEmpty(
+      window.Editor_getDataFromLocalStorage(Keys.CONFIG),
+    )
+      ? fallbackConfig
+      : window.Editor_getDataFromLocalStorage(Keys.CONFIG)
     this.state = {
-      code: '// type your code...',
+      localConfig: retrievedConfigFromLocalStorage,
     }
   }
   editorDidMount(editor, monaco) {
-    console.log('editorDidMount', editor);
-    editor.focus();
+    editor.focus()
   }
-  onChange(newValue, e) {
-    console.log('onChange', newValue, e);
-  }
+  onChange(newValue, e) {}
   render() {
-    const code = this.state.code;
+    const code = this.state.code
     const options = {
-      selectOnLineNumbers: true
-    };
+      selectOnLineNumbers: true,
+    }
     return (
       <MonacoEditor
         width="800"
@@ -35,8 +35,8 @@ class Editor extends React.PureComponent {
         onChange={this.onChange}
         editorDidMount={this.editorDidMount}
       />
-    );
+    )
   }
 }
 
-export default Editor;
+export default Editor

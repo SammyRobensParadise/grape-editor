@@ -1,9 +1,15 @@
 'use-strict'
-const fallbackConfig = {
+export const fallbackConfig = {
   language: 'javascript',
   width: "600",
   height: "400",
   theme: "vs-dark",
+  code: 'console.log("Hello, World!"); \n // Begin Typing your code here...',
+  options: null,
+}
+
+export const isObjectEmpty = (o) => {
+    return Object.entries(0).length === 0
 }
 
 /**
@@ -16,7 +22,7 @@ window.Editor_dispatchDataEventToLocalStorage = (key, config) => {
   const keyToStore = typeof key === 'string' ? key : date.getTime()
   const configToStore =
     typeof config === 'object' &&
-    !(Object.entries(config).length === 0 && config.constructor === Object)
+    !(Object.entries(config).length === 0)
       ? config
       : fallbackConfig
   localStorage.setItem(keyToStore, configToStore)
