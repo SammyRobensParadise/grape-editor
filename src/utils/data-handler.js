@@ -4,8 +4,10 @@ export const fallbackConfig = {
   width: "600",
   height: "400",
   theme: "vs-dark",
-  code: 'console.log("Hello, World!"); \n // Begin Typing your code here...',
-  options: null,
+  code: 'console.log("Hello, World!");  \n// Begin Typing your code here...',
+  options: {
+    selectOnLineNumbers: true,
+  },
 }
 
 export const isObjectEmpty = (o) => {
@@ -19,6 +21,7 @@ export const isObjectEmpty = (o) => {
  */
 window.Editor_dispatchDataEventToLocalStorage = (key, config) => {
   const date = new Date()
+  debugger
   const keyToStore = typeof key === 'string' ? key : date.getTime()
   const configToStore =
     typeof config === 'object' &&
