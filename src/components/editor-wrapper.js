@@ -1,5 +1,5 @@
 import React from 'react'
-
+import App from './App'
 class EditorWrapper extends React.PureComponent{
     constructor(props){
         super(props)
@@ -14,7 +14,7 @@ class EditorWrapper extends React.PureComponent{
     }
     render(){
         return(
-            <p>sample text</p>
+            <App/>
         )
     }
 }
