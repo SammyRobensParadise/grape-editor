@@ -1,6 +1,11 @@
 import React from 'react'
 import MonacoEditor from 'react-monaco-editor'
+import styled from 'styled-components'
 import { fallbackConfig, isObjectEmpty } from '../utils/data-handler'
+
+const EditorWrapper = styled.div`
+  z-index: 99999;
+`
 
 class Editor extends React.PureComponent {
   constructor(props) {
@@ -13,26 +18,28 @@ class Editor extends React.PureComponent {
     this.state = {
       localConfig: retrievedConfigFromLocalStorage,
     }
-    window.Editor_dispatchDataEventToLocalStorage('config',fallbackConfig);
+    window.Editor_dispatchDataEventToLocalStorage('config', fallbackConfig)
   }
   editorDidMount(editor, monaco) {
     editor.focus()
   }
   onChange(newValue, e) {}
-  
+
   render() {
-    const {language,width,height,theme,code,options} = this.state.localConfig
+    const { language, width, height, theme, code, options } = this.state.localConfig
     return (
-      <MonacoEditor
-        width={width}
-        height={height}
-        language={language}
-        theme={theme}
-        value={code}
-        options={options}
-        onChange={this.onChange}
-        editorDidMount={this.editorDidMount}
-      />
+      <EditorWrapper>
+        <MonacoEditor
+          width={width}
+          height={height}
+          language={language}
+          theme={theme}
+          value={code}
+          options={options}
+          onChange={this.onChange}
+          editorDidMount={this.editorDidMount}
+        />
+      </EditorWrapper>
     )
   }
 }
