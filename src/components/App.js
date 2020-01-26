@@ -7,29 +7,27 @@ class Editor extends React.PureComponent {
   constructor(props) {
     super(props)
     const retrievedConfigFromLocalStorage = isObjectEmpty(
-      window.Editor_getDataFromLocalStorage(Keys.CONFIG),
+      window.Editor_getDataFromLocalStorage('config'),
     )
       ? fallbackConfig
-      : window.Editor_getDataFromLocalStorage(Keys.CONFIG)
+      : window.Editor_getDataFromLocalStorage('config')
     this.state = {
       localConfig: retrievedConfigFromLocalStorage,
     }
+    window.Editor_dispatchDataEventToLocalStorage('config',fallbackConfig);
   }
   editorDidMount(editor, monaco) {
     editor.focus()
   }
   onChange(newValue, e) {}
   render() {
-    const code = this.state.code
-    const options = {
-      selectOnLineNumbers: true,
-    }
+    const {language,width,height,theme,code,options} = this.state.localConfig
     return (
       <MonacoEditor
-        width="800"
-        height="600"
-        language="javascript"
-        theme="vs-dark"
+        width={width}
+        height={height}
+        language={language}
+        theme={theme}
         value={code}
         options={options}
         onChange={this.onChange}
