@@ -5,10 +5,14 @@ import styled from 'styled-components'
 import { Icon, CodeBlock } from 'global-winery'
 import Editor from './App'
 import { fallbackConfig, isObjectEmpty } from '../utils/data-handler'
-import colors from '../constants/colors'
 
+const colorsLib = {
+  defaultVSCodeColor: '#1d1d1d',
+  secondaryCodeColor: '#868686',
+  tertiaryVSCodeColor: '#C6C6C6',
+}
 const Wrapper = styled.div`
-  background-color: ${colors.defaultVSCodeColor};
+  background-color: ${colorsLib.defaultVSCodeColor};
   padding-top: 20px;
   padding-bottom: 60px;
   border-radius: 10px;
@@ -19,11 +23,11 @@ const Wrapper = styled.div`
 const Tab = styled.div`
   width: ${(p) => (p.width ? p.width / p.numberOfTabs : 400 / p.numberOfTabs)}px;
   height: ${(p) => (p.height ? p.height - 400 : 200)}px;
-  background: ${(p) => (p.color ? p.color : colors.defaultVSCodeColor)};
+  background: ${(p) => (p.color ? p.color : colorsLib.defaultVSCodeColor)};
   float: right;
   border-radius: 10px 10px 0px 0px;
   left: ${(p) =>
-    parseInt(p.width, 10) / parseInt(p.order, 10)
+    parseInt(p.width, 10) / (3 / parseInt(p.order, 10))
     - parseInt(p.width, 10) / parseInt(p.numberOfTabs, 10)}px;
   position: absolute;
   top: 0px;
@@ -43,19 +47,27 @@ const GetTabs = ({ numberOfTabs, width }) => {
   for (let i = 0; i < numberOfTabs; i++) {
     switch (i) {
       case 0:
-        colorAsProps = colors.efaultVSCodeColor
+        colorAsProps = colorsLib.efaultVSCodeColor
         break
       case 1:
-        colorAsProps = colors.secondaryCodeColor
+        colorAsProps = colorsLib.secondaryCodeColor
         break
       case 2:
-        colorAsProps = colors.tertiaryVSCodeColor
+        colorAsProps = colorsLib.tertiaryVSCodeColor
         break
       default:
-        colorAsProps = colors.defaultVSCodeColor
+        colorAsProps = colorsLib.defaultVSCodeColor
         break
     }
-    tabs.push(<Tab order={i + 1} color={colorAsProps} numberOfTabs={numberOfTabs} width={width} />)
+    tabs.push(
+      <Tab
+        order={i + 1}
+        key={`Key${i}`}
+        color={colorAsProps}
+        numberOfTabs={numberOfTabs}
+        width={width}
+      />,
+    )
   }
   return tabs.map(() => <div>{tabs}</div>)
 }
