@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import MonacoEditor from 'react-monaco-editor'
 import styled from 'styled-components'
@@ -20,13 +22,19 @@ class Editor extends React.PureComponent {
     }
     window.Editor_dispatchDataEventToLocalStorage('config', fallbackConfig)
   }
-  editorDidMount(editor, monaco) {
+
+
+  editorDidMount(editor, _monaco) {
     editor.focus()
   }
-  onChange(newValue, e) {}
+
+  // onChange(newValue, e) {}
 
   render() {
-    const { language, width, height, theme, code, options } = this.state.localConfig
+    const { localConfig } = this.state
+    const {
+      language, width, height, theme, code, options,
+    } = localConfig
     return (
       <EditorWrapper>
         <MonacoEditor
