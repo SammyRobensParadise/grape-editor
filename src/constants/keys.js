@@ -1,6 +1,5 @@
 const Keys = {
-    CONFIG: 'config'
+  CONFIG: 'config',
 }
 
-
-export default {Keys}
+export default { Keys }
