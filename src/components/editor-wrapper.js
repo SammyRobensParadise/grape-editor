@@ -11,7 +11,10 @@ const colorsLib = {
   defaultVSCodeColor: '#1d1d1d',
   secondaryCodeColor: '#868686',
   tertiaryVSCodeColor: '#C6C6C6',
+  primaryWhite: '#ffffff',
 }
+const config = 'config';
+
 const Wrapper = styled.div`
   background-color: ${colorsLib.defaultVSCodeColor};
   padding-top: 20px;
@@ -60,7 +63,7 @@ const IconExitWrapper = styled.div`
   transform: scale(0.8);
 `
 const ActiveFile = styled.h1`
-  color: #fff;
+  color: ${colorsLib.primaryWhite};
   font-size: 12px;
   text-align: center;
   margin-block-start: 0px;
@@ -68,7 +71,7 @@ const ActiveFile = styled.h1`
   font-weight: 200;
 `
 const FileName = styled.h1`
-  color: #fff;
+  color: ${colorsLib.primaryWhite};
   font-size: 16px;
   text-align: center;
   margin-block-start: 0px;
@@ -81,8 +84,8 @@ const FileName = styled.h1`
   font-weight: 200;
 `
 const GetTabs = ({ numberOfTabs, width, fileNamesInEditor }) => {
-  const cb = <CodeBlock color="#fff" />
-  const exit = <ExitIcon color="#fff" />
+  const cb = <CodeBlock color={colorsLib.primaryWhite} />
+  const exit = <ExitIcon color={colorsLib.primaryWhite} />
   const dots = '...'
   const {
     firstFile, secondFile, thirdFile, fallback,
@@ -133,21 +136,22 @@ const GetTabs = ({ numberOfTabs, width, fileNamesInEditor }) => {
   }
   return tabs.map(() => <div>{tabs}</div>)
 }
+
 class EditorWrapper extends React.PureComponent {
   constructor(props) {
     super(props)
     const retrievedConfigFromLocalStorage = isObjectEmpty(
-      window.Editor_getDataFromLocalStorage('config'),
+      window.Editor_getDataFromLocalStorage(config),
     )
       ? fallbackConfig
-      : window.Editor_getDataFromLocalStorage('config')
+      : window.Editor_getDataFromLocalStorage(config)
     this.state = {
       localConfig: retrievedConfigFromLocalStorage,
-      numberOfTabs: 3,
+      numberOfTabs: props.numberOfTabs,
       activeFileName: props.activeFileName,
       fileNamesInEditor: props.fileNamesInEditor,
     }
-    window.Editor_dispatchDataEventToLocalStorage('config', fallbackConfig)
+    window.Editor_dispatchDataEventToLocalStorage(config, fallbackConfig)
   }
 
   render() {
@@ -171,6 +175,7 @@ class EditorWrapper extends React.PureComponent {
 EditorWrapper.propTypes = {
   activeFileName: PropTypes.string,
   fileNamesInEditor: PropTypes.shape,
+  numberOfTabs: PropTypes.number,
 }
 EditorWrapper.defaultProps = {
   activeFileName: 'untitled.js',
@@ -180,5 +185,6 @@ EditorWrapper.defaultProps = {
     thirdFile: 'untitled-3.js',
     fallback: 'untitled.js',
   },
+  numberOfTabs: 3,
 }
 export default EditorWrapper
