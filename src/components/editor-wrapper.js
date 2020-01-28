@@ -83,7 +83,7 @@ const FileName = styled.h1`
 const GetTabs = ({ numberOfTabs, width, fileNamesInEditor }) => {
   const cb = <CodeBlock color="#fff" />
   const exit = <ExitIcon color="#fff" />
-
+  const dots = '...'
   const {
     firstFile, secondFile, thirdFile, fallback,
   } = fileNamesInEditor
@@ -109,6 +109,9 @@ const GetTabs = ({ numberOfTabs, width, fileNamesInEditor }) => {
         colorAsProps = colorsLib.defaultVSCodeColor
         filenameAsProps = fallback
         break
+    }
+    if (filenameAsProps.length >= 15) {
+      filenameAsProps = filenameAsProps.substr(0, 10) + dots
     }
     tabs.push(
       <Tab
