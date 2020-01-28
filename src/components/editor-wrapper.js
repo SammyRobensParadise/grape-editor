@@ -13,7 +13,7 @@ const colorsLib = {
   tertiaryVSCodeColor: '#C6C6C6',
   primaryWhite: '#ffffff',
 }
-const config = 'config';
+const config = 'config'
 
 const Wrapper = styled.div`
   background-color: ${colorsLib.defaultVSCodeColor};
@@ -83,7 +83,9 @@ const FileName = styled.h1`
   font-family: 'Montserrat', sans-serif;
   font-weight: 200;
 `
-const GetTabs = ({ numberOfTabs, width, fileNamesInEditor }) => {
+const GetTabs = ({
+  numberOfTabs, width, fileNamesInEditor, activeFileId,
+}) => {
   const cb = <CodeBlock color={colorsLib.primaryWhite} />
   const exit = <ExitIcon color={colorsLib.primaryWhite} />
   const dots = '...'
@@ -123,6 +125,7 @@ const GetTabs = ({ numberOfTabs, width, fileNamesInEditor }) => {
         color={colorAsProps}
         numberOfTabs={numberOfTabs}
         width={width}
+        activeFileId={activeFileId}
       >
         <IconWrapper>
           <Icon type={cb} />
@@ -149,19 +152,36 @@ class EditorWrapper extends React.PureComponent {
       localConfig: retrievedConfigFromLocalStorage,
       numberOfTabs: props.numberOfTabs,
       activeFileName: props.activeFileName,
+      activeFileId: 1,
       fileNamesInEditor: props.fileNamesInEditor,
     }
     window.Editor_dispatchDataEventToLocalStorage(config, fallbackConfig)
   }
 
+  setActiveFile = (id) => {
+    this.setState({
+      activeFileId: id,
+    })
+  }
+
   render() {
     const {
-      localConfig, numberOfTabs, activeFileName, fileNamesInEditor,
+      localConfig,
+      numberOfTabs,
+      activeFileName,
+      fileNamesInEditor,
+      activeFileId,
     } = this.state
+
     const { width, height } = localConfig
     return (
       <div>
-        <GetTabs numberOfTabs={numberOfTabs} width={width} fileNamesInEditor={fileNamesInEditor} />
+        <GetTabs
+          numberOfTabs={numberOfTabs}
+          width={width}
+          fileNamesInEditor={fileNamesInEditor}
+          activeFileId={activeFileId}
+        />
         <Wrapper width={width} height={height}>
           <E>
             <ActiveFile>{activeFileName}</ActiveFile>
