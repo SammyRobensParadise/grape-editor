@@ -7,6 +7,8 @@ import { Icon, CodeBlock, ExitIcon } from 'global-winery'
 import Editor from './App'
 import { fallbackConfig, isObjectEmpty } from '../utils/data-handler'
 
+const defaultEditorId = 1
+
 const colorsLib = {
   defaultVSCodeColor: '#1d1d1d',
   secondaryCodeColor: '#868686',
@@ -37,6 +39,7 @@ const Tab = styled.div`
   top: 0px;
   box-shadow: 6px 0px 32px -15px rgba(0, 0, 0, 0.75);
   z-index: ${(p) => 20 - p.order};
+  cursor: pointer;
 `
 const E = styled.div`
   height: 40px;
@@ -84,7 +87,7 @@ const FileName = styled.h1`
   font-weight: 200;
 `
 const GetTabs = ({
-  numberOfTabs, width, fileNamesInEditor, activeFileId,
+  numberOfTabs, width, fileNamesInEditor, activeFileId, handleTabChange,
 }) => {
   const cb = <CodeBlock color={colorsLib.primaryWhite} />
   const exit = <ExitIcon color={colorsLib.primaryWhite} />
@@ -96,10 +99,10 @@ const GetTabs = ({
   let colorAsProps
   let filenameAsProps
   // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < numberOfTabs; i++) {
-    switch (i) {
+  for (let index = 0; index < numberOfTabs; index++) {
+    switch (index) {
       case 0:
-        colorAsProps = colorsLib.efaultVSCodeColor
+        colorAsProps = colorsLib.secondaryCodeColor
         filenameAsProps = firstFile
         break
       case 1:
@@ -118,14 +121,18 @@ const GetTabs = ({
     if (filenameAsProps.length >= 15) {
       filenameAsProps = filenameAsProps.substr(0, 10) + dots
     }
+    if (activeFileId === index + 1) {
+      colorAsProps = colorsLib.defaultVSCodeColor
+    }
     tabs.push(
       <Tab
-        order={i + 1}
-        key={`Key${i}`}
+        order={index + 1}
+        key={`Key${index}`}
         color={colorAsProps}
         numberOfTabs={numberOfTabs}
         width={width}
-        activeFileId={activeFileId}
+        isActive={!!(activeFileId === index + 1)}
+        onClick={() => handleTabChange(index + 1)}
       >
         <IconWrapper>
           <Icon type={cb} />
@@ -152,13 +159,13 @@ class EditorWrapper extends React.PureComponent {
       localConfig: retrievedConfigFromLocalStorage,
       numberOfTabs: props.numberOfTabs,
       activeFileName: props.activeFileName,
-      activeFileId: 1,
+      activeFileId: props.defaultActiveFileId,
       fileNamesInEditor: props.fileNamesInEditor,
     }
     window.Editor_dispatchDataEventToLocalStorage(config, fallbackConfig)
   }
 
-  setActiveFile = (id) => {
+  handleTabChange = (id) => {
     this.setState({
       activeFileId: id,
     })
@@ -181,6 +188,7 @@ class EditorWrapper extends React.PureComponent {
           width={width}
           fileNamesInEditor={fileNamesInEditor}
           activeFileId={activeFileId}
+          handleTabChange={this.handleTabChange}
         />
         <Wrapper width={width} height={height}>
           <E>
@@ -196,6 +204,8 @@ EditorWrapper.propTypes = {
   activeFileName: PropTypes.string,
   fileNamesInEditor: PropTypes.shape,
   numberOfTabs: PropTypes.number,
+  defaultActiveFileId: PropTypes.number,
+
 }
 EditorWrapper.defaultProps = {
   activeFileName: 'untitled.js',
@@ -206,5 +216,6 @@ EditorWrapper.defaultProps = {
     fallback: 'untitled.js',
   },
   numberOfTabs: 3,
+  defaultActiveFileId: defaultEditorId,
 }
 export default EditorWrapper
